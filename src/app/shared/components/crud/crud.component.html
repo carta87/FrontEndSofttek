@@ -1,0 +1,105 @@
+<p>crud works!</p>
+<div>
+  <p>Seleccione por favor que acción desea realizar</p>
+  <button (click)="create()" mat-raised-button color="primary">Crear</button>
+  <button (click)="update()" mat-raised-button color="primary">Actualizar</button>
+  <button (click)="Eliminar()" mat-raised-button color="primary">Eliminar</button>
+
+    <!--opcion Create table -->
+
+  <div *ngIf="habilitarCreate"><br><br>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered align-middle ">
+        <thead>
+          <tr >
+            <th class="text-center align-middle"><strong>id</strong></th>
+            <th class="text-center align-middle"><strong>Nombre</strong></th>
+            <th class="text-center align-middle"><strong>Apellido</strong></th>
+            <th class="text-center align-middle"><strong>Empleado</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.id" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.name" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.lastName" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.dni" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.employee" required></td>
+          </tr>
+      </table>
+    </div>
+    <br><br>
+    <button (click)="Enviar()">Enviar</button>
+  </div>
+
+      <!--opcion Update table -->
+
+  <div *ngIf="habilitarUpdate">
+    <p>Seleccione por favor, el id del Empleado que desea modificar</p>
+    <input type="text" [(ngModel)]="this.id" required>
+    <button (click)="buscar()">Buscar</button>
+  </div>
+  <div *ngIf="habilitarUpdate2">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered align-middle">
+        <thead>
+          <tr>
+            <th class="text-center align-middle"><strong>id</strong></th>
+            <th class="text-center align-middle"><strong>Nombre</strong></th>
+            <th class="text-center align-middle"><strong>Apellido</strong></th>
+            <th class="text-center align-middle"><strong>Empleado</strong></th>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.id" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.name" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.lastName" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.dni" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.employee" required></td>
+          </tr>
+      </table>
+    </div>
+    <br><br>
+    <button (click)="Enviar()">Enviar</button>
+  </div>
+  <!--opcion Update table -->
+
+  <div *ngIf="habilitarUpdate">
+    <p>Seleccione por favor, el id del Empleado que desea modificar</p>
+    <input type="text" [(ngModel)]="this.id" required>
+    <button (click)="buscar()">Buscar</button>
+  </div>
+  <div *ngIf="habilitarUpdate2">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered align-middle">
+        <thead>
+          <tr>
+            <th class="text-center align-middle"><strong>id</strong></th>
+            <th class="text-center align-middle"><strong>Nombre</strong></th>
+            <th class="text-center align-middle"><strong>Apellido</strong></th>
+            <th class="text-center align-middle"><strong>Empleado</strong></th>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.id" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.name" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.lastName" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.dni" required></td>
+            <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.employee" required></td>
+          </tr>
+      </table>
+    </div>
+    <br><br>
+    <button (click)="Enviar()">Enviar</button>
+  </div>
+
+  <!--opcion Update table -->
+  <div *ngIf="habilitarDelete">
+    <p>Seleccione por favor, el id que desea Eliminar</p>
+    <input type="text" [(ngModel)]="this.id" required>
+    <button (click)="EliminarArchive()">Eliminar</button>
+  </div>
+</div>
+

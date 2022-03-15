@@ -1,0 +1,27 @@
+.contenido{
+  background-color: #292f36;
+  color: #ffffff;
+}
+
+img {
+  display: inline-block;
+  margin-left: 10%;
+  margin-top: 1%;
+}
+
+p {
+  display: inline-block;
+  margin-left: 10%;
+  font-size: 18px;
+}
+
+section{
+  margin: 20px auto;
+  padding: 0% 160%;
+}
+
+.contenido{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  column-gap: 1rem;
+}
