@@ -1,9 +1,19 @@
 <app-banner></app-banner><br><br>
-<div class="content">
+
+<div class="contetPrincipal">
   <p>
-    Bienvenido, <br><br>
-    <strong>Api personas</strong> <br><br>
-    Esta solución le brindara información detallada sobre las personas registradas en la Base de Datos xxxx una busqueda por tipo, erial de cada uno de los mismos<br><br>
+    <strong>Bienvenido..... Api personas</strong><br><br>
+   <br><br>
+    Esta solución le brindara información detallada sobre las personas registradas en la Base de Datos con el fin de realizar diferentes operaciones.<br><br>
+    <p>Ademas los recursos que consume en la base de datos estan publicados en la suiguente URL:  'https://softtekbackend.herokuapp.com/api/persona/'</p>
+  
+  <br>
+</div>
+<div class="content">
+  
+  <br>
+  <p>  
+    <strong>Acontinuacion Vera las personas Actualmente registradas</strong><br><br>
   </p>
 
   <div class="table-responsive">
@@ -13,14 +23,15 @@
             <th class="text-center align-middle"><strong>id</strong></th>
             <th class="text-center align-middle"><strong>Nombre</strong></th>
             <th class="text-center align-middle"><strong>Apellido</strong></th>
+            <th class="text-center align-middle"><strong>DNI</strong></th>
             <th class="text-center align-middle"><strong>Empleado</strong></th>
         </thead>
 
         <tbody>
-          <tr *ngIf="active.length == 0">
+          <tr *ngIf="persons.length == 0">
             <td colspan="15">No hay registros cargados</td>
           </tr>
-          <tr *ngFor="let r of active; let k = index;">
+          <tr *ngFor="let r of persons">
             <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.id}}</td>
             <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.name}}</td>
             <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.lastName}}</td>
@@ -31,75 +42,106 @@
   </div>
 
   <div>
-    <p>Seleccione Busqueda</p>
+    <p>Seleccione operacion que desea realizar.</p>
 
     <select [(ngModel)]="busqueda" class="form-select" aria-label="Default select example" >
-      <option value="1">ID</option>
-      <option value="2">Nombre</option>
-      <option value="3">Apellido</option>
+      <option value="1">Ver persona por ID</option>
+      <option value="2">Ingresar Persona</option>
+      <option value="3">Modificar Persona</option>
+      <option value="4">Eliminar Persona</option>
     </select>
 
+    <!-- Mostrar Persona-->
     <div *ngIf="busqueda==1"><br><br>
-      <p>Ingresa que tipo de Activo deseas Filtar</p>
-      <select [(ngModel)]="this.busquedaTipo" class="form-select" aria-label="Default select example" >
-        <option value="1">Maquinaria</option>
-        <option value="2">Mueble</option>
-      </select>
-      <br>
-
-      <button (click)="searchType(this.busquedaTipo)" mat-raised-button color="primary">Consultar</button>
-
+      <p>Ingresa el ID  del Empleado</p>
+      <input type="number" max="100" min="1" [(ngModel)]="this.busquedaPersona" required>
       <br><br>
-      <div class="table-responsive" *ngIf=" (this.busquedaTipo ==1 || this.busquedaTipo ==2 ) && showTableType == true ">
-        <table class="table table-striped table-hover table-bordered align-middle ">
-            <thead>
-              <tr>
-                <th colspan="2" class="centerText">id</th>
-                <th colspan="3" class="centerText">Nombre</th>
-                <th colspan="8" class="centerText">Apellido</th>
-                <th colspan="8" class="centerText">Empleado</th>
-              </tr>
-              <tr>
-                <th class="text-center align-middle"><strong>id</strong></th>
-                <th class="text-center align-middle"><strong>Nombre</strong></th>
-                <th class="text-center align-middle"><strong>Apellido</strong></th>
-                <th class="text-center align-middle"><strong>Empleado</strong></th>
-            </thead>
-
-            <tbody>
-              <tr *ngIf="active.length == 0">
-                <td colspan="15">No hay registros cargados</td>
-              </tr>
-              <tr *ngFor="let r of active; let k = index;">
-                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.id}}</td>
-                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.name}}</td>
-                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{r.lastName}}</td>
-                <td style="font-size: 18px!important; width: 10%"class="text-center align-middle">{{r.dni}}</td>
-                <td style="font-size: 18px!important; width: 10%"class="text-center align-middle">{{r.employee}}</td>
-              </tr>
+      <button (click)="searchPerson()" mat-raised-button color="primary"> buscar</button>
+      <div *ngIf="mostrarTablaPersonaPorID">
+        <table class="table table-striped table-hover table-bordered align-middle " >
+          <thead>
+            <tr >
+              <th class="text-center align-middle"><strong>id</strong></th>
+              <th class="text-center align-middle"><strong>Nombre</strong></th>
+              <th class="text-center align-middle"><strong>Apellido</strong></th>
+              <th class="text-center align-middle"><strong>DNI</strong></th>
+              <th class="text-center align-middle"><strong>Empleado</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{this.personById.id}}</td>
+              <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{this.personById.name}}</td>
+              <td style="font-size: 18px!important; width: 5%" class="text-center align-middle">{{this.personById.lastName}}</td>
+              <td style="font-size: 18px!important; width: 10%"class="text-center align-middle">{{this.personById.dni}}</td>
+              <td style="font-size: 18px!important; width: 10%"class="text-center align-middle">{{this.personById.employee}}</td>
+            </tr>
         </table>
-        <app-crud></app-crud>
       </div>
     </div>
 
+    <!-- Crear Persona-->
     <div *ngIf="busqueda==2"><br><br>
-      <p>haz seleccinado Fecha</p>
-      <p>Ingresa la fecha en la cual se compro el activo</p>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="this.busquedaFecha">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <br>
-      <button (click)="searchDate()" mat-raised-button color="primary">Consultar</button>
-      <app-crud></app-crud>
+      <p>Ingrese los datos de la Persona</p>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered align-middle ">
+            <thead>
+              <tr >
+                <th class="text-center align-middle"><strong>Nombre</strong></th>
+                <th class="text-center align-middle"><strong>Apellido</strong></th>
+                <th class="text-center align-middle"><strong>DNI</strong></th>
+                <th class="text-center align-middle"><strong>Empleado</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.name" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.lastName" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.dni" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.employee" required></td>
+              </tr>
+          </table>
+        </div>
+        <br><br>
+        <button (click)="send()" mat-raised-button color="primary">Enviar</button>
     </div>
 
+    <!-- Modificar Persona-->
     <div *ngIf="busqueda==3"><br><br>
-      <p>Ingresa el ID del Empleado</p>
-      <input type="number" [(ngModel)]="this.busquedaSerial" required>
+      <p>Por favor ingrese el Id de la Persona para modificar</p>
+      <br>
+      <input type="number" max="100" min="1" [(ngModel)]="this.idModifier" required><br><br>
+      <button (click)="verTablaModificar()" mat-raised-button color="primary">Consultar</button>
       <br><br>
-      <button (click)="searchSerie()" mat-raised-button color="primary">Consultar</button>
-      <app-crud></app-crud>
+      <div class="table-responsive" *ngIf="mostrarTablaModificar">
+        <table class="table table-striped table-hover table-bordered align-middle ">
+            <thead>
+              <tr>
+                <th class="text-center align-middle"><strong>Nombre</strong></th>
+                <th class="text-center align-middle"><strong>Apellido</strong></th>
+                <th class="text-center align-middle"><strong>DNI</strong></th>
+                <th class="text-center align-middle"><strong>Empleado</strong></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.name" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.lastName" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.dni" required></td>
+                <td style="font-size: 18px!important; width: 5%" class="text-center align-middle"><input type="text" [(ngModel)]="this.enviarPerson.employee" required></td>
+              </tr>
+        </table><br><br>
+        <button (click)="Modifier()" mat-raised-button color="primary">Modificar</button>
+      </div>
     </div>
+
+  <!-- Eliminar Persona-->
+    <div *ngIf="busqueda==4"><br><br>
+      <p>Ingrese el Id del Empleado que desea Eliminar</p>
+      <input type="number" min="1" max="100" [(ngModel)]="this.busquedaPersona" required>
+      <br><br>
+      <button (click)="deletePerson()" mat-raised-button color="primary">Eliminar</button>
+    </div>
+
   </div>
 </div>
 <br><br>

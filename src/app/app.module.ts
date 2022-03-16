@@ -19,7 +19,7 @@ import { MaterialModule } from './material/material.module';
   declarations: [
     AppComponent,
     PrincipalComponent
-  ],
+  ], 
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -9,12 +9,19 @@ import { Busqueda } from '../../core/models/Optiones';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.scss']
 })
+
 export class PrincipalComponent {
 
+  busquedaPersona: number;
+  mostrarTablaPersonaPorID : boolean = false;
+  mostrarTablaModificar : boolean = false;
+  valorPresente : boolean = false;
+  hayObjeto : boolean = false;
+
+  idModifier : number;
   busqueda: number = 0;
   busquedaTipo: number = 0;
   busquedaFecha: Date;
-  busquedaSerial: number;
 
   showTableType: boolean = false;
   optionsBusqueda: Array<Busqueda>;
@@ -27,7 +34,16 @@ export class PrincipalComponent {
     employee : null,
   }
 
-  active : Person[]=[];
+  enviarPerson : Person = {
+    id:null,
+    name : null,
+    lastName : null,
+    dni : null,
+    employee : null,
+  }
+
+  persons : Person[]=[];
+  personById : Person;
 
   constructor(
     private serviceRestService: ServiceRestService,
@@ -38,53 +54,61 @@ export class PrincipalComponent {
     this.getPersons();
   }
 
-  cargarSelectCiclo() {
-    this.optionsBusqueda = [
-        {value: 1, busqueda: 'Id'},
-        {value: 2, busqueda: 'Nombre'},
-        {value: 2, busqueda: 'Apellido'},
-    ]
-  }
-
   getPersons(){
     this.serviceRestService.getAllPerson()
-    .subscribe( data=>{
-      this.active = data
+    .subscribe(data=>{
+      this.persons = data
     })
-
-    this.serviceRestService.getAllPerson()
-    .subscribe( data=>{
-      this.active = data
-    })
-
-    console.log(this.person);
   }
 
+  searchPerson(){
+      this.serviceRestService.getPersonById(this.busquedaPersona)
+      .subscribe(data => {
+        this.personById = data
+        this.mostrarTablaPersonaPorID = true;
+        this.valorPresente = true;
+      });
+  }
 
-
-  searchType(busquedaTipo : number){
-    if(busquedaTipo == 1 || busquedaTipo == 2){
-      alert("vas a consultar por Tipo");
-      this.showTableType = true;
-      console.log(this.busquedaTipo);
+  send(){
+    if(this.enviarPerson !=null){
+      this.serviceRestService.createPerson( this.enviarPerson)
+      .subscribe();
+      this.toastrService.success("Ingreso Exitoso, Por favor actualizar la tabla");
     }else{
-      alert("por favor ingrese un tipo valido");
-      this.showTableType = false;
-      console.log(this.busquedaTipo);
+
+      this.toastrService.error("Persona no esta registrada");
     }
-
   }
 
-  searchDate(){
-    this.showTableType = false;
-    alert("vas a consultar por fecha");
-    console.log(this.busquedaFecha);
+  deletePerson(){
+    this.serviceRestService.deletedPerson(this.busquedaPersona)
+    .subscribe(data =>{
+      this.toastrService.success("Borrado Exitoso, Por favor actualizar la tabla")   
+      this.valorPresente = true;
+    });
+  
+    (this.valorPresente)?this.toastrService.success("persona encontrada en base da Datos"):this.toastrService.error("persona no encontrada");
+    this.valorPresente = false;
   }
 
-  searchSerie(){
-    this.showTableType = false;
-    alert("vas a consultar por tipo "+ this.busquedaSerial);
-    console.log(this.busquedaSerial);
+  Modifier(){
+    this.enviarPerson.id= this.idModifier;
+    this.serviceRestService.createPerson(this.enviarPerson)
+    .subscribe();
+    this.toastrService.success("Modificacion Exitoso, Por favor actualizar la tabla");
   }
 
+  verTablaModificar(){
+    this.serviceRestService.getPersonById(this.idModifier)
+    .subscribe(data => {
+      this.personById = data;
+      this.hayObjeto = true;
+    });
+
+    (this.hayObjeto)? this.mostrarTablaModificar =true:this.toastrService.error("Valor invalido");
+    this.hayObjeto = false;
+  }  
+ 
+    
 }

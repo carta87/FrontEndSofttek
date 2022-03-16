@@ -17,18 +17,19 @@ export class ServiceRestService {
     return this.http.get<any>(environment.Url_apiBD+ "todos");
   }
 
+  getPersonById (idPerson : number){
+    return this.http.get<any>(environment.Url_apiBD+ "" + idPerson);
+  }
+
   createPerson(person : Person){
-    return this.http.post(environment.Url_apiBD+ "/save", person);
+    console.log("Este es personaaa para enviar");
+    console.log(person);
+    return this.http.post(environment.Url_apiBD+ "save", person);
   }
 
-  updatePerson(idPerson: String){
-    console.log("este es mi update" + idPerson);
-    return this.http.get<Person>(environment.Url_apiBD + "person/"+ idPerson);
-  }
-
-  deletedPerson(idPerson: String){
+  deletedPerson(idPerson: number){
     console.log("ver id a Eliminar desde service");
     console.log(idPerson);
-    return this.http.delete<boolean>(environment.Url_apiBD+ "Person/delete/" + idPerson);
+    return this.http.delete<boolean>(environment.Url_apiBD+ "delete/" + idPerson);
   }
 }
